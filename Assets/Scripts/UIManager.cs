@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject loginUI;
     [SerializeField] GameObject logoutUI;
     [SerializeField] Text userData;
+
+    [SerializeField] InputField userEmail;
+    [SerializeField] InputField userPassword;
 
     private void Awake()
     {
@@ -31,18 +35,36 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(gameObject.name);
-        GetJSON("Leaders", gameObject.name, "OnRequestSuccess", "OnRequestFailed");
+        LoginScreen();
     }
 
     void Update()
     {
 
     }
-    // realtimedb-demo-a2e19
-    // https://realtimedb-demo-a2e19.firebaseio.com/
-    // us-central1
-    // https://realtimedb-demo-a2e19-default-rtdb.firebaseio.com/
+
+    public void Login()
+    {
+        StartCoroutine(Upload());
+    }
+
+    IEnumerator Upload()
+    {
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection(userEmail.text + "&" + userData.text));
+
+        UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:3000/", formData);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
+    }
 
     public void LoginScreen()
     {
