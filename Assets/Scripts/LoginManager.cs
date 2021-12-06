@@ -21,8 +21,8 @@ public class LoginManager : MonoBehaviour
 
     class GLCredential
     {
-        public string Email;
-        public string Password;
+        public string email;
+        public string password;
     }
 
     private void Awake()
@@ -62,8 +62,8 @@ public class LoginManager : MonoBehaviour
     IEnumerator AuthenticateUserAccount(string username, string password)
     {
         GLCredential credential = new GLCredential();
-        credential.Email = username;
-        credential.Password = password;
+        credential.email = username;
+        credential.password = password;
 
         string data = JsonUtility.ToJson(credential);
         // Using javascript
