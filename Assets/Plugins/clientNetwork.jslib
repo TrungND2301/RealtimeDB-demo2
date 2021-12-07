@@ -6,12 +6,12 @@ mergeInto(LibraryManager.library, {
     var parsedCallback = Pointer_stringify(callback);
     var parsedFallback = Pointer_stringify(fallback);
 
-    try {
-      const responseData = sendData(parsedURL, parsedData);
-      console.log(responseData);
-      // unityGame.SendMessage(parsedObjectName, parsedCallback, responseData);
-    } catch (error) {
-      unityGame.SendMessage(parsedObjectName, parsedFallback, error);
-    }
+    sendData(
+      parsedURL,
+      parsedData,
+      parsedObjectName,
+      parsedCallback,
+      parsedFallback
+    );
   },
 });
